@@ -7,7 +7,7 @@ import {
   calculateGroundsFromWater,
   calculateWaterFromCoffee,
   calculateWaterFromGrounds,
-} from 'coffeemathlib/RatioCalculator.js';
+} from 'coffeemathlib';
 import { RecipeObject } from '../../shared/recipe';
 
 @Component({
