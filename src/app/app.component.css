@@ -1,0 +1,9 @@
+mat-sidenav-content {
+  height: 100dvh;
+  padding: 20px;
+}
+
+mat-sidenav {
+  padding: 20px;
+  min-width: 300px;
+}

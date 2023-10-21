@@ -1,0 +1,25 @@
+.card {
+  max-width: 500px;
+  margin: 50px auto;
+}
+
+.header,
+.content {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.header {
+  padding-bottom: 30px;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.actions {
+  display: flex;
+  gap: 20px;
+  flex-flow: row-reverse wrap;
+  padding: 20px;
+}
