@@ -1,0 +1,7 @@
+<ul>
+  <li *ngFor="let recipe of this.recipes">
+    <a href="#">{{recipe.name}}
+      <span [appFavorite]="recipe.favorite"></span>
+    </a>
+  </li>
+</ul>

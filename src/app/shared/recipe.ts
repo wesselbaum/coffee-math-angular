@@ -1,6 +1,6 @@
 import { RatioConf } from 'coffeemathlib/RatioCalculator.js';
 
-export interface RecipeObject {
+export interface Recipe {
   creatorId: string;
   name: string;
   id: string;

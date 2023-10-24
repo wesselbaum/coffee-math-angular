@@ -13,9 +13,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { RecipeService } from './shared/services/recipe.service';
+import { FavoriteDirective } from './shared/directives/Favorite/favorite.directive';
 
 @NgModule({
-  declarations: [AppComponent, RecipeComponent],
+  declarations: [
+    AppComponent,
+    RecipeComponent,
+    SidebarComponent,
+    FavoriteDirective,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -29,7 +37,7 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [RecipeService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   events: string[] = [];
-  opened: boolean = false;
+  opened = false;
 
   toggle = () => {
     this.opened = !this.opened;

@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { parseFloatWithFallback, trimFloat } from '../../shared/number';
+import { Component, OnInit } from '@angular/core';
+import { parseFloatWithFallback, trimFloat } from '../shared/Helpers/number';
 import {
   calculateCoffeeFromGrounds,
   calculateCoffeeFromWater,
@@ -8,29 +8,36 @@ import {
   calculateWaterFromCoffee,
   calculateWaterFromGrounds,
 } from 'coffeemathlib';
-import { RecipeObject } from '../../shared/recipe';
+import { Recipe } from '../shared/recipe';
+import { RecipeService } from '../shared/services/recipe.service';
 
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.css'],
 })
-export class RecipeComponent {
-  public waterAmountMl: number = 10;
-  public coffeeAmountMl: number = 20;
-  public groundsAmountG: number = 30;
-  public recipe: RecipeObject = {
-    creatorId: '',
-    favorite: false,
-    name: 'AeroPress',
-    id: '',
-    ratioConf: {
-      relationship: { coffeeG: 14, waterMl: 250 },
-      waterInGroundCoffeeCapacity: 2.2,
-    },
-  };
+export class RecipeComponent implements OnInit {
+  public waterAmountMl = 10;
+  public coffeeAmountMl = 20;
+  public groundsAmountG = 30;
+  public recipe: Recipe;
+
+  constructor(private recipeService: RecipeService) {
+    this.recipe = this.recipeService.getRecipes()[0];
+  }
+
+  ngOnInit() {
+    this.recipeService.recipeToggledFavorite.subscribe(recipe => {
+      if (recipe.id === this.recipe.id) {
+        this.recipe = recipe;
+      }
+    });
+  }
 
   onWaterAmountChanges = () => {
+    if (!this.recipe) {
+      return;
+    }
     this.waterAmountMl = parseFloatWithFallback(this.waterAmountMl, 0);
     this.coffeeAmountMl = trimFloat(
       calculateCoffeeFromWater(this.waterAmountMl, this.recipe.ratioConf),
@@ -42,6 +49,9 @@ export class RecipeComponent {
     );
   };
   onCoffeeAmountChanges = () => {
+    if (!this.recipe) {
+      return;
+    }
     this.coffeeAmountMl = parseFloatWithFallback(this.coffeeAmountMl, 0);
     this.waterAmountMl = trimFloat(
       calculateWaterFromCoffee(this.coffeeAmountMl, this.recipe.ratioConf),
@@ -53,6 +63,9 @@ export class RecipeComponent {
     );
   };
   onGroundsAmountChanges = () => {
+    if (!this.recipe) {
+      return;
+    }
     this.groundsAmountG = parseFloatWithFallback(this.groundsAmountG, 0);
     this.waterAmountMl = trimFloat(
       calculateWaterFromGrounds(this.groundsAmountG, this.recipe.ratioConf),
@@ -63,4 +76,7 @@ export class RecipeComponent {
       2
     );
   };
+  onFavoriteButtonClick() {
+    this.recipeService.toggleFavorite(this.recipe.id);
+  }
 }
