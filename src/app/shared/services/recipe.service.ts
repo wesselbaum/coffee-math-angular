@@ -50,6 +50,5 @@ export class RecipeService {
     this.recipeToggledFavorite.emit(
       this.recipes.find(recipe => recipe.id === recipeId)
     );
-    console.log('This should fail the pipeline');
   }
 }
