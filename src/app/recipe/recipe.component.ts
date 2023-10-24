@@ -8,7 +8,7 @@ import {
   calculateWaterFromCoffee,
   calculateWaterFromGrounds,
 } from 'coffeemathlib';
-import { Recipe } from '../shared/recipe';
+import { Recipe } from '../shared/recipe.model';
 import { RecipeService } from '../shared/services/recipe.service';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Recipe } from '../recipe';
+import { Recipe } from '../recipe.model';
 import { RatioConf } from 'coffeemathlib/RatioCalculator';
 import { EventEmitter } from '@angular/core';
 
