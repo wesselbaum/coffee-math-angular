@@ -28,12 +28,14 @@ export class RecipeComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.recipe = this.recipeService.getRecipes()[0];
+    this.prefillInputs();
   }
 
   ngOnInit() {
     this.recipeService.recipeToggledFavorite.subscribe(recipe => {
       if (recipe.id === this.recipe.id) {
         this.recipe = recipe;
+        this.prefillInputs();
       }
     });
     this.updateDisplayedRecipeById(this.route.snapshot.params['id']);
@@ -48,16 +50,20 @@ export class RecipeComponent implements OnInit {
       .find(recipe => recipe.id === recipeId);
     if (recipe) {
       this.recipe = recipe;
-      if (this.recipe.input) {
-        this.waterAmountMl = this.recipe.input.water;
-        this.coffeeAmountMl = this.recipe.input.coffee;
-        this.groundsAmountG = this.recipe.input.grounds;
-      } else {
-        this.waterAmountMl = 200;
-        this.onWaterAmountChanges();
-      }
+      this.prefillInputs();
     }
   };
+
+  private prefillInputs() {
+    if (this.recipe.input) {
+      this.waterAmountMl = this.recipe.input.water;
+      this.coffeeAmountMl = this.recipe.input.coffee;
+      this.groundsAmountG = this.recipe.input.grounds;
+    } else {
+      this.waterAmountMl = 200;
+      this.onWaterAmountChanges();
+    }
+  }
 
   onWaterAmountChanges = () => {
     if (!this.recipe) {
