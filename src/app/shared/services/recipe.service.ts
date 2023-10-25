@@ -24,6 +24,11 @@ export class RecipeService {
       ratioConf: this.ratioConf,
       favorite: true,
       creatorId: '',
+      input: {
+        water: 250,
+        grounds: 14,
+        coffee: 220.93,
+      },
     },
     {
       id: 'V60CanSimplified',
@@ -37,6 +42,11 @@ export class RecipeService {
       },
       favorite: false,
       creatorId: '',
+      input: {
+        water: 750,
+        grounds: 44.12,
+        coffee: 658.91,
+      },
     },
   ];
 

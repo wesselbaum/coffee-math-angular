@@ -36,18 +36,26 @@ export class RecipeComponent implements OnInit {
         this.recipe = recipe;
       }
     });
-    this.updateCurrentRecipeById(this.route.snapshot.params['id']);
+    this.updateDisplayedRecipeById(this.route.snapshot.params['id']);
     this.route.params.subscribe((params: Params) => {
-      this.updateCurrentRecipeById(params['id']);
+      this.updateDisplayedRecipeById(params['id']);
     });
   }
 
-  updateCurrentRecipeById = (recipeId: string) => {
+  updateDisplayedRecipeById = (recipeId: string) => {
     const recipe = this.recipeService
       .getRecipes()
       .find(recipe => recipe.id === recipeId);
     if (recipe) {
       this.recipe = recipe;
+      if (this.recipe.input) {
+        this.waterAmountMl = this.recipe.input.water;
+        this.coffeeAmountMl = this.recipe.input.coffee;
+        this.groundsAmountG = this.recipe.input.grounds;
+      } else {
+        this.waterAmountMl = 200;
+        this.onWaterAmountChanges();
+      }
     }
   };
 
