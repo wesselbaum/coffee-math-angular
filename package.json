@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --configuration production --base-href https://wesselbaum.github.io/angular-coffee-math/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint"
