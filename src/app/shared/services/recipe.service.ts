@@ -26,9 +26,15 @@ export class RecipeService {
       creatorId: '',
     },
     {
-      id: 'V60Can',
-      name: 'V60 Can',
-      ratioConf: this.ratioConf,
+      id: 'V60CanSimplified',
+      name: 'V60 Can Simplified',
+      ratioConf: {
+        waterInGroundCoffeeCapacity: 2.35,
+        relationship: {
+          coffeeG: 1,
+          waterMl: 17,
+        },
+      },
       favorite: false,
       creatorId: '',
     },

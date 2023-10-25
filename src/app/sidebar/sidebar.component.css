@@ -9,7 +9,7 @@ a {
   text-decoration: none;
   padding: 20px;
   display: inline-block;
-  width: 100%;
+  width: calc(100% - 40px);
 
   &:hover {
     text-decoration: underline;

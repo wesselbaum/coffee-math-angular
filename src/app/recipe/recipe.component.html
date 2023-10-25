@@ -6,9 +6,6 @@
     <button mat-flat-button (click)="onFavoriteButtonClick()">
       <span [appFavorite]="recipe.favorite"></span>
     </button>
-    <ng-template #favorite>★</ng-template>
-    <ng-template #nonFavorite>☆</ng-template>
-
   </mat-card-title-group>
     <p>Water in grounds capacity: <b>{{recipe.ratioConf.waterInGroundCoffeeCapacity}}</b>ml/g</p>
     <p>Grounds to water ratio: <b>{{recipe.ratioConf.relationship.coffeeG}}</b>g/<b>{{recipe.ratioConf.relationship.waterMl}}</b>ml</p>
@@ -32,7 +29,7 @@
     </mat-form-field>
   </mat-card-content>
   <mat-card-actions class="actions">
-    <button mat-raised-button color="primary">Edit Recipe</button>
+    <button mat-raised-button color="primary" [routerLink]="['/recipe', recipe.id, 'edit']">Edit Recipe</button>
     <button mat-raised-button color="warn">Delete Recipe</button>
   </mat-card-actions>
 </mat-card>

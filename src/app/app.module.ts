@@ -16,26 +16,41 @@ import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RecipeService } from './shared/services/recipe.service';
 import { FavoriteDirective } from './shared/directives/Favorite/favorite.directive';
-
+import { RouterModule, Routes } from '@angular/router';
+import { EditComponent } from './recipe/edit/edit.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { UserComponent } from './user/user.component';
+const routes: Routes = [
+  { path: '', component: RecipeComponent },
+  { path: 'recipe/:id', component: RecipeComponent },
+  { path: 'recipe/:id/edit', component: EditComponent },
+  { path: 'user', component: UserComponent },
+];
 @NgModule({
   declarations: [
     AppComponent,
+    EditComponent,
+    FavoriteDirective,
     RecipeComponent,
     SidebarComponent,
-    FavoriteDirective,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatSlideToggleModule,
-    MatSidenavModule,
-    MatCheckboxModule,
+    FormsModule,
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    FormsModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    RouterModule.forRoot(routes),
   ],
   providers: [RecipeService],
   bootstrap: [AppComponent],

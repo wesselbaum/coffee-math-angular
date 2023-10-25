@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Recipe } from '../shared/recipe.model';
 import { RecipeService } from '../shared/services/recipe.service';
 
@@ -10,6 +10,8 @@ import { RecipeService } from '../shared/services/recipe.service';
 export class SidebarComponent implements OnInit {
   recipes: Recipe[] = [];
 
+  @Output() recipeClicked = new EventEmitter<undefined>();
+
   constructor(private recipeService: RecipeService) {}
 
   ngOnInit() {
@@ -17,5 +19,9 @@ export class SidebarComponent implements OnInit {
     this.recipeService.recipeToggledFavorite.subscribe(() => {
       this.recipes = this.recipeService.getRecipes();
     });
+  }
+
+  onRecipeClick() {
+    this.recipeClicked.emit();
   }
 }

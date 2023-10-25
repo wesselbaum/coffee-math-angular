@@ -1,0 +1,4 @@
+.card {
+  max-width: var(--card-max-width);
+  margin: 20px auto;
+}

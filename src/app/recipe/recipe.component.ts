@@ -10,6 +10,7 @@ import {
 } from 'coffeemathlib';
 import { Recipe } from '../shared/recipe.model';
 import { RecipeService } from '../shared/services/recipe.service';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-recipe',
@@ -22,7 +23,10 @@ export class RecipeComponent implements OnInit {
   public groundsAmountG = 30;
   public recipe: Recipe;
 
-  constructor(private recipeService: RecipeService) {
+  constructor(
+    private recipeService: RecipeService,
+    private route: ActivatedRoute
+  ) {
     this.recipe = this.recipeService.getRecipes()[0];
   }
 
@@ -32,7 +36,20 @@ export class RecipeComponent implements OnInit {
         this.recipe = recipe;
       }
     });
+    this.updateCurrentRecipeById(this.route.snapshot.params['id']);
+    this.route.params.subscribe((params: Params) => {
+      this.updateCurrentRecipeById(params['id']);
+    });
   }
+
+  updateCurrentRecipeById = (recipeId: string) => {
+    const recipe = this.recipeService
+      .getRecipes()
+      .find(recipe => recipe.id === recipeId);
+    if (recipe) {
+      this.recipe = recipe;
+    }
+  };
 
   onWaterAmountChanges = () => {
     if (!this.recipe) {

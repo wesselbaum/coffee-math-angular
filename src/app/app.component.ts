@@ -12,4 +12,8 @@ export class AppComponent {
   toggle = () => {
     this.opened = !this.opened;
   };
+
+  close() {
+    this.opened = false;
+  }
 }

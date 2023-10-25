@@ -1,17 +1,25 @@
 <mat-sidenav-container>
+
   <mat-sidenav mode="over" [(opened)]="opened">
-    <app-sidebar></app-sidebar>
+    <app-sidebar (recipeClicked)="close()"></app-sidebar>
   </mat-sidenav>
   <mat-sidenav-content>
-    <button
-      mat-button
-      mat-raised-button
-      color="primary"
-      type="button"
-      (click)="toggle()"
-    >
-      Recipes
-    </button>
-    <app-recipe />
+    <mat-toolbar>
+      <button
+        mat-button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="toggle()"
+      >
+        Recipes
+      </button>
+      <div class="toolbar-right">
+        <a routerLink="/user" mat-icon-button>
+          <mat-icon>account_circle</mat-icon>
+        </a>
+      </div>
+    </mat-toolbar>
+    <router-outlet />
   </mat-sidenav-content>
 </mat-sidenav-container>
