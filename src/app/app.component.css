@@ -1,9 +1,13 @@
 mat-sidenav-content {
   height: 100dvh;
-  padding: 20px;
+  padding: 0;
 }
 
 mat-sidenav {
   padding: 20px;
   min-width: 300px;
+}
+
+.toolbar-right {
+  margin-left: auto;
 }

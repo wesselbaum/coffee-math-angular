@@ -1,6 +1,6 @@
 <ul>
   <li *ngFor="let recipe of this.recipes">
-    <a href="#">{{recipe.name}}
+    <a [routerLink]="'/recipe/'+recipe.id" (click)="onRecipeClick()">{{recipe.name}}
       <span [appFavorite]="recipe.favorite"></span>
     </a>
   </li>
