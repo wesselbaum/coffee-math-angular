@@ -2,7 +2,8 @@ export const parseFloatWithFallback = (
   input: string | number,
   fallback: number
 ): number => {
-  const possibleFloat = parseFloat(`${input}`);
+  const preparedInput = `${input}`.replace(',', '.');
+  const possibleFloat = parseFloat(`${preparedInput}`);
   if (isNaN(possibleFloat)) {
     return fallback;
   }

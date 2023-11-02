@@ -54,19 +54,6 @@ export class EditComponent implements OnInit {
 
   onExpertViewChange(event: MatSlideToggleChange) {
     this.expertView = event.checked;
-
-    // if (!this.expertView) {
-    //   this.recipe.ratioConf.relationship.coffeeG = 1;
-    //
-    //   if (this.recipe.ratioConf.relationship.waterMl < 1) {
-    //     this.recipe.ratioConf.relationship.waterMl = 1;
-    //   }
-    //
-    //   if (this.recipe.ratioConf.relationship.waterMl > 32) {
-    //     this.recipe.ratioConf.relationship.waterMl = 32;
-    //   }
-    // }
-
     this.adjustRecipeToCurrentView();
   }
 

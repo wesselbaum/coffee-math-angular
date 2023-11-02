@@ -3,7 +3,7 @@
   >
   <mat-card-title-group>
     <mat-card-title>{{recipe.name}}</mat-card-title>
-    <button mat-flat-button (click)="onFavoriteButtonClick()">
+    <button mat-flat-button (click)="onFavoriteButtonClick()" id="favoriteButton">
       <span [appFavorite]="recipe.favorite"></span>
     </button>
   </mat-card-title-group>
@@ -13,18 +13,18 @@
   <mat-card-content class="content">
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Water</mat-label>
-      <input matInput placeholder="250" [(ngModel)]="waterAmountMl" (input)="onWaterAmountChanges()"/>
+      <input name="water" matInput placeholder="250" [(ngModel)]="waterAmountMl" (input)="onWaterAmountChanges()"/>
       <mat-hint>in ml
       </mat-hint>
     </mat-form-field>
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Coffee</mat-label>
-      <input [(ngModel)]="coffeeAmountMl" (input)="onCoffeeAmountChanges()" matInput placeholder="233"/>
+      <input name="coffee" [(ngModel)]="coffeeAmountMl" (input)="onCoffeeAmountChanges()" matInput placeholder="233"/>
       <mat-hint>output in ml</mat-hint>
     </mat-form-field>
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Grounds</mat-label>
-      <input [(ngModel)]="groundsAmountG" (input)="onGroundsAmountChanges()" matInput  placeholder="14"/>
+      <input name="grounds" [(ngModel)]="groundsAmountG" (input)="onGroundsAmountChanges()" matInput  placeholder="14"/>
       <mat-hint>in g</mat-hint>
     </mat-form-field>
   </mat-card-content>
