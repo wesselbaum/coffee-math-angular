@@ -1,6 +1,12 @@
 # AngularCoffeeMath
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.2.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.2. 
+
+The main goal of this project is the developer can follow along a tutorial and apply the tought principles to another application.
+
+The secondary goal is to have an application with which you can calculate your coffee related maths.
+
+The result can be found on [Project's GitHub Pages](https://wesselbaum.github.io/coffee-math-angular/)
 
 ## Development server
 
