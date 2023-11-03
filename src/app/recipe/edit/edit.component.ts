@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Recipe } from '../../shared/recipe.model';
 import { RecipeService } from '../../shared/services/recipe.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { simplifyRatio } from '../../shared/Helpers/recipe.helper';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css', '../recipe.component.css'],
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements OnInit, OnDestroy {
   public recipe: Recipe;
   public expertView = false;
   public strength = 'normal';
+
+  recipeServiceSubscription: Subscription | undefined;
 
   constructor(
     private recipeService: RecipeService,
@@ -23,11 +26,12 @@ export class EditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.recipeService.recipeToggledFavorite.subscribe(recipe => {
-      if (recipe.id === this.recipe.id) {
-        this.recipe = recipe;
-      }
-    });
+    this.recipeServiceSubscription =
+      this.recipeService.recipeToggledFavorite.subscribe(recipe => {
+        if (recipe.id === this.recipe.id) {
+          this.recipe = recipe;
+        }
+      });
     this.updateCurrentRecipeById(this.route.snapshot.params['id']);
     this.route.params.subscribe((params: Params) => {
       this.updateCurrentRecipeById(params['id']);
@@ -35,6 +39,10 @@ export class EditComponent implements OnInit {
 
     this.expertView = this.recipe.ratioConf.relationship.coffeeG !== 1;
     this.adjustRecipeToCurrentView();
+  }
+
+  ngOnDestroy() {
+    this.recipeServiceSubscription?.unsubscribe();
   }
 
   adjustRecipeToCurrentView() {

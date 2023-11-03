@@ -1,6 +1,6 @@
 import { Recipe } from '../recipe.model';
 import { RatioConf } from 'coffeemathlib/RatioCalculator';
-import { EventEmitter } from '@angular/core';
+import { Subject } from 'rxjs';
 
 export class RecipeService {
   private ratioConf: RatioConf = {
@@ -50,7 +50,7 @@ export class RecipeService {
     },
   ];
 
-  recipeToggledFavorite = new EventEmitter<Recipe>();
+  recipeToggledFavorite = new Subject<Recipe>();
 
   public getRecipes(): Recipe[] {
     return [...this.recipes];
@@ -63,8 +63,8 @@ export class RecipeService {
       }
       return { ...recipe, favorite: !recipe.favorite };
     });
-    this.recipeToggledFavorite.emit(
-      this.recipes.find(recipe => recipe.id === recipeId)
+    this.recipeToggledFavorite.next(
+      this.recipes.find(recipe => recipe.id === recipeId) ?? this.recipes[0]
     );
   }
 }

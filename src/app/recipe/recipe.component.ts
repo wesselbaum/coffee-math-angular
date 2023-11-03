@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   parseFloatWithFallback,
   trimFloat,
@@ -14,17 +14,20 @@ import {
 import { Recipe } from '../shared/recipe.model';
 import { RecipeService } from '../shared/services/recipe.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.css'],
 })
-export class RecipeComponent implements OnInit {
+export class RecipeComponent implements OnInit, OnDestroy {
   public waterAmountMl = 10;
   public coffeeAmountMl = 20;
   public groundsAmountG = 30;
   public recipe: Recipe;
+
+  recipeServiceSubscription: Subscription | undefined;
 
   constructor(
     private recipeService: RecipeService,
@@ -35,19 +38,24 @@ export class RecipeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.recipeService.recipeToggledFavorite.subscribe(recipe => {
-      if (!recipe) {
-        return;
-      }
-      if (recipe.id === this.recipe.id) {
-        this.recipe = recipe;
-        this.prefillInputs();
-      }
-    });
+    this.recipeServiceSubscription =
+      this.recipeService.recipeToggledFavorite.subscribe(recipe => {
+        if (!recipe) {
+          return;
+        }
+        if (recipe.id === this.recipe.id) {
+          this.recipe = recipe;
+          this.prefillInputs();
+        }
+      });
     this.updateDisplayedRecipeById(this.route.snapshot.params['id']);
     this.route.params.subscribe((params: Params) => {
       this.updateDisplayedRecipeById(params['id']);
     });
+  }
+
+  ngOnDestroy() {
+    this.recipeServiceSubscription?.unsubscribe();
   }
 
   updateDisplayedRecipeById = (recipeId: string) => {
