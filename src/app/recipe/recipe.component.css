@@ -9,6 +9,10 @@
   flex-flow: column wrap;
 }
 
+.content > form {
+  display: contents;
+}
+
 .header {
   padding-bottom: 30px;
 }

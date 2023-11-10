@@ -12,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RecipeService } from './shared/services/recipe.service';
 import { FavoriteDirective } from './shared/directives/Favorite/favorite.directive';
@@ -48,6 +48,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatSlideToggleModule,
     MatToolbarModule,
     AppRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [RecipeService],
   bootstrap: [AppComponent],
