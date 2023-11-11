@@ -9,7 +9,7 @@ import { RecipeComponent } from './recipe.component';
 import { MatCardModule } from '@angular/material/card';
 import { RecipeService } from '../shared/services/recipe.service';
 import { AppRoutingModule } from '../app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FavoriteDirective } from '../shared/directives/Favorite/favorite.directive';
 import { MatInputModule } from '@angular/material/input';
@@ -33,6 +33,7 @@ describe('RecipeComponent', () => {
         FormsModule,
         MatFormFieldModule,
         MatInputModule,
+        ReactiveFormsModule,
       ],
       providers: [RecipeService],
     });
@@ -53,19 +54,27 @@ describe('RecipeComponent', () => {
         relationship: { coffeeG: 1, waterMl: 20 },
       }),
     });
-    component.waterAmountMl = 200;
+    component.recipeForm.controls.waterAmountMl.setValue('200');
     component.onWaterAmountChanges();
-    expect(component.coffeeAmountMl).toEqual(181.82);
-    expect(component.groundsAmountG).toEqual(10);
+    expect(component.recipeForm.controls.coffeeAmountMl.value).toEqual(
+      '181.82'
+    );
+    expect(component.recipeForm.controls.groundsAmountG.value).toEqual('10');
   }));
 
   it('should adjust initial input values to recipe which has input', fakeAsync(() => {
     const recipe = buildRecipe({});
     component.recipe = recipe;
     component.prefillInputs();
-    expect(component.waterAmountMl).toEqual(recipe.input?.water ?? 0);
-    expect(component.coffeeAmountMl).toEqual(recipe.input?.coffee ?? 0);
-    expect(component.groundsAmountG).toEqual(recipe.input?.grounds ?? 0);
+    expect(component.recipeForm.controls.waterAmountMl.value).toEqual(
+      recipe.input?.water + '' ?? ''
+    );
+    expect(component.recipeForm.controls.coffeeAmountMl.value).toEqual(
+      recipe.input?.coffee + '' ?? ''
+    );
+    expect(component.recipeForm.controls.groundsAmountG.value).toEqual(
+      recipe.input?.grounds + '' ?? 0
+    );
   }));
 
   it(`should adjust recipe on coffee change`, fakeAsync(() => {
@@ -75,9 +84,9 @@ describe('RecipeComponent', () => {
     expect(coffeeInput).toBeTruthy();
     coffeeInput.value = '400';
     coffeeInput.dispatchEvent(new Event('input'));
-    expect(component.coffeeAmountMl).toEqual(400);
-    expect(component.waterAmountMl).toEqual(452.64);
-    expect(component.groundsAmountG).toEqual(28.68);
+    expect(component.recipeForm.controls.coffeeAmountMl.value).toEqual('400');
+    expect(component.recipeForm.controls.waterAmountMl.value).toEqual('452.64');
+    expect(component.recipeForm.controls.groundsAmountG.value).toEqual('28.68');
   }));
   it(`should adjust recipe on water change`, fakeAsync(() => {
     const waterInput = fixture.debugElement.nativeElement.querySelector(
@@ -86,9 +95,11 @@ describe('RecipeComponent', () => {
     expect(waterInput).toBeTruthy();
     waterInput.value = '400';
     waterInput.dispatchEvent(new Event('input'));
-    expect(component.coffeeAmountMl).toEqual(353.48);
-    expect(component.waterAmountMl).toEqual(400);
-    expect(component.groundsAmountG).toEqual(22.4);
+    expect(component.recipeForm.controls.coffeeAmountMl.value).toEqual(
+      '353.48'
+    );
+    expect(component.recipeForm.controls.waterAmountMl.value).toEqual('400');
+    expect(component.recipeForm.controls.groundsAmountG.value).toEqual('22.4');
   }));
   it(`should adjust recipe on grounds change`, fakeAsync(() => {
     const groundsInput = fixture.debugElement.nativeElement.querySelector(
@@ -97,15 +108,13 @@ describe('RecipeComponent', () => {
     expect(groundsInput).toBeTruthy();
     groundsInput.value = '20';
     groundsInput.dispatchEvent(new Event('input'));
-    expect(component.coffeeAmountMl).toEqual(315.61);
-    expect(component.waterAmountMl).toEqual(357.14);
-    expect(component.groundsAmountG).toEqual(20);
+    expect(component.recipeForm.controls.coffeeAmountMl.value).toEqual(
+      '315.61'
+    );
+    expect(component.recipeForm.controls.waterAmountMl.value).toEqual('357.14');
+    expect(component.recipeForm.controls.groundsAmountG.value).toEqual('20');
   }));
   it(`should toggle favorite`, fakeAsync(() => {
-    // const recipe = buildRecipe({ favorite: false });
-    // component.recipe = recipe;
-    // fixture.detectChanges();
-    // component.recipe = recipe;
     const favoriteButton = fixture.debugElement.nativeElement.querySelector(
       'button#favoriteButton'
     );

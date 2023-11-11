@@ -15,6 +15,7 @@ import { Recipe } from '../shared/recipe.model';
 import { RecipeService } from '../shared/services/recipe.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-recipe',
@@ -22,10 +23,22 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./recipe.component.css'],
 })
 export class RecipeComponent implements OnInit, OnDestroy {
-  public waterAmountMl = 10;
-  public coffeeAmountMl = 20;
-  public groundsAmountG = 30;
   public recipe: Recipe;
+
+  public recipeForm = new FormGroup({
+    waterAmountMl: new FormControl('10', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.pattern('^\\d*\\.?\\d*$')],
+    }),
+    coffeeAmountMl: new FormControl('20', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.pattern('^\\d*\\.?\\d*$')],
+    }),
+    groundsAmountG: new FormControl('30', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.pattern('^\\d*\\.?\\d*$')],
+    }),
+  });
 
   recipeServiceSubscription: Subscription | undefined;
 
@@ -70,46 +83,109 @@ export class RecipeComponent implements OnInit, OnDestroy {
 
   prefillInputs() {
     if (this.recipe.input) {
-      this.waterAmountMl = this.recipe.input.water;
-      this.coffeeAmountMl = this.recipe.input.coffee;
-      this.groundsAmountG = this.recipe.input.grounds;
+      this.recipeForm.controls.waterAmountMl.setValue(
+        this.recipe.input.water + ''
+      );
+      this.recipeForm.controls.coffeeAmountMl.setValue(
+        this.recipe.input.coffee + ''
+      );
+      this.recipeForm.controls.groundsAmountG.setValue(
+        this.recipe.input.grounds + ''
+      );
     } else {
-      this.waterAmountMl = 200;
+      this.recipeForm.controls.waterAmountMl.setValue('200');
       this.onWaterAmountChanges();
     }
   }
 
   onWaterAmountChanges = () => {
-    this.waterAmountMl = parseFloatWithFallback(this.waterAmountMl, 0);
-    this.coffeeAmountMl = trimFloat(
-      calculateCoffeeFromWater(this.waterAmountMl, this.recipe.ratioConf),
-      2
+    this.recipeForm.controls.waterAmountMl.setValue(
+      parseFloatWithFallback(this.recipeForm.controls.waterAmountMl.value, 0) +
+        ''
     );
-    this.groundsAmountG = trimFloat(
-      calculateGroundsFromWater(this.waterAmountMl, this.recipe.ratioConf),
-      2
+    this.recipeForm.controls.coffeeAmountMl.setValue(
+      trimFloat(
+        calculateCoffeeFromWater(
+          parseFloatWithFallback(
+            this.recipeForm.controls.waterAmountMl.value,
+            0
+          ),
+          this.recipe.ratioConf
+        ),
+        2
+      ) + ''
+    );
+    this.recipeForm.controls.groundsAmountG.setValue(
+      trimFloat(
+        calculateGroundsFromWater(
+          parseFloatWithFallback(
+            this.recipeForm.controls.waterAmountMl.value,
+            0
+          ),
+          this.recipe.ratioConf
+        ),
+        2
+      ) + ''
     );
   };
   onCoffeeAmountChanges = () => {
-    this.coffeeAmountMl = parseFloatWithFallback(this.coffeeAmountMl, 0);
-    this.waterAmountMl = trimFloat(
-      calculateWaterFromCoffee(this.coffeeAmountMl, this.recipe.ratioConf),
-      2
+    this.recipeForm.controls.coffeeAmountMl.setValue(
+      parseFloatWithFallback(this.recipeForm.controls.coffeeAmountMl.value, 0) +
+        ''
     );
-    this.groundsAmountG = trimFloat(
-      calculateGroundsFromCoffee(this.waterAmountMl, this.recipe.ratioConf),
-      2
+    this.recipeForm.controls.waterAmountMl.setValue(
+      trimFloat(
+        calculateWaterFromCoffee(
+          parseFloatWithFallback(
+            this.recipeForm.controls.coffeeAmountMl.value,
+            0
+          ),
+          this.recipe.ratioConf
+        ),
+        2
+      ) + ''
+    );
+    this.recipeForm.controls.groundsAmountG.setValue(
+      trimFloat(
+        calculateGroundsFromCoffee(
+          parseFloatWithFallback(
+            this.recipeForm.controls.waterAmountMl.value,
+            0
+          ),
+          this.recipe.ratioConf
+        ),
+        2
+      ) + ''
     );
   };
   onGroundsAmountChanges = () => {
-    this.groundsAmountG = parseFloatWithFallback(this.groundsAmountG, 0);
-    this.waterAmountMl = trimFloat(
-      calculateWaterFromGrounds(this.groundsAmountG, this.recipe.ratioConf),
-      2
+    this.recipeForm.controls.groundsAmountG.setValue(
+      parseFloatWithFallback(this.recipeForm.controls.groundsAmountG.value, 0) +
+        ''
     );
-    this.coffeeAmountMl = trimFloat(
-      calculateCoffeeFromGrounds(this.groundsAmountG, this.recipe.ratioConf),
-      2
+    this.recipeForm.controls.waterAmountMl.setValue(
+      trimFloat(
+        calculateWaterFromGrounds(
+          parseFloatWithFallback(
+            this.recipeForm.controls.groundsAmountG.value,
+            0
+          ),
+          this.recipe.ratioConf
+        ),
+        2
+      ) + ''
+    );
+    this.recipeForm.controls.coffeeAmountMl.setValue(
+      trimFloat(
+        calculateCoffeeFromGrounds(
+          parseFloatWithFallback(
+            this.recipeForm.controls.groundsAmountG.value,
+            0
+          ),
+          this.recipe.ratioConf
+        ),
+        2
+      ) + ''
     );
   };
   onFavoriteButtonClick() {

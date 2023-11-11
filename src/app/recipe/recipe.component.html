@@ -1,36 +1,71 @@
 <mat-card class="card">
-  <mat-card-header class="header"
-  >
-  <mat-card-title-group>
-    <mat-card-title>{{recipe.name}}</mat-card-title>
-    <button mat-flat-button (click)="onFavoriteButtonClick()" id="favoriteButton">
-      <span [appFavorite]="recipe.favorite"></span>
-    </button>
-  </mat-card-title-group>
-    <p>Water in grounds capacity: <b>{{recipe.ratioConf.waterInGroundCoffeeCapacity}}</b>ml/g</p>
-    <p>Grounds to water ratio: <b>{{recipe.ratioConf.relationship.coffeeG}}</b>g/<b>{{recipe.ratioConf.relationship.waterMl}}</b>ml</p>
+  <mat-card-header class="header">
+    <mat-card-title-group>
+      <mat-card-title>{{ recipe.name }}</mat-card-title>
+      <button
+        mat-flat-button
+        (click)="onFavoriteButtonClick()"
+        id="favoriteButton">
+        <span [appFavorite]="recipe.favorite"></span>
+      </button>
+    </mat-card-title-group>
+    <p>
+      Water in grounds capacity:
+      <b>{{ recipe.ratioConf.waterInGroundCoffeeCapacity }}</b
+      >ml/g
+    </p>
+    <p>
+      Grounds to water ratio: <b>{{ recipe.ratioConf.relationship.coffeeG }}</b
+      >g/<b>{{ recipe.ratioConf.relationship.waterMl }}</b
+      >ml
+    </p>
   </mat-card-header>
   <mat-card-content class="content">
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Water</mat-label>
-      <input name="water" matInput placeholder="250" [(ngModel)]="waterAmountMl" (input)="onWaterAmountChanges()"/>
-      <mat-hint>in ml
-      </mat-hint>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Coffee</mat-label>
-      <input name="coffee" [(ngModel)]="coffeeAmountMl" (input)="onCoffeeAmountChanges()" matInput placeholder="233"/>
-      <mat-hint>output in ml</mat-hint>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Grounds</mat-label>
-      <input name="grounds" [(ngModel)]="groundsAmountG" (input)="onGroundsAmountChanges()" matInput  placeholder="14"/>
-      <mat-hint>in g</mat-hint>
-    </mat-form-field>
+    <form [formGroup]="recipeForm">
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Water</mat-label>
+        <input
+          name="water"
+          matInput
+          type="text"
+          inputmode="numeric"
+          placeholder="250"
+          formControlName="waterAmountMl"
+          (input)="onWaterAmountChanges()" />
+        <mat-hint>in ml </mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Coffee</mat-label>
+        <input
+          name="coffee"
+          formControlName="coffeeAmountMl"
+          (input)="onCoffeeAmountChanges()"
+          matInput
+          placeholder="233" />
+        <mat-hint>output in ml</mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="form-field">
+        <mat-label>Grounds</mat-label>
+        <input
+          name="grounds"
+          formControlName="groundsAmountG"
+          (input)="onGroundsAmountChanges()"
+          matInput
+          placeholder="14" />
+        <mat-hint>in g</mat-hint>
+      </mat-form-field>
+    </form>
   </mat-card-content>
   <mat-card-actions class="actions">
-    <button mat-raised-button color="primary">Save input</button>
-    <button mat-raised-button color="accent" [routerLink]="['/recipe', recipe.id, 'edit']">Edit Recipe</button>
+    <button [disabled]="recipeForm.invalid" mat-raised-button color="primary">
+      Save input
+    </button>
+    <button
+      mat-raised-button
+      color="accent"
+      [routerLink]="['/recipe', recipe.id, 'edit']">
+      Edit Recipe
+    </button>
     <button mat-raised-button color="warn">Delete Recipe</button>
   </mat-card-actions>
 </mat-card>

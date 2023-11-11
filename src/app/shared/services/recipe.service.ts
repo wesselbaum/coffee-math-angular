@@ -67,4 +67,13 @@ export class RecipeService {
       this.recipes.find(recipe => recipe.id === recipeId) ?? this.recipes[0]
     );
   }
+
+  public updateRecipe(recipe: Recipe) {
+    this.recipes = this.recipes.map(r => {
+      if (r.id === recipe.id) {
+        return recipe;
+      }
+      return r;
+    });
+  }
 }

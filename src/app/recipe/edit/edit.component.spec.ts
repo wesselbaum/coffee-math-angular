@@ -8,7 +8,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Recipe } from '../../shared/recipe.model';
 
@@ -47,6 +47,7 @@ describe('EditComponent', () => {
         MatSliderModule,
         MatSlideToggleModule,
         MatFormFieldModule,
+        ReactiveFormsModule,
         MatInputModule,
       ],
       providers: [RecipeService],
