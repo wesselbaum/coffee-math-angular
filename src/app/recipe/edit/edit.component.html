@@ -1,48 +1,78 @@
 <mat-card class="card">
-  <mat-card-header class="header"
-  >
+  <mat-card-header class="header">
     <mat-card-title-group>
-      <mat-card-title>{{recipe.name}}</mat-card-title>
-      <mat-slide-toggle [checked]="expertView" (change)="onExpertViewChange($event)">Expert view</mat-slide-toggle>
+      <mat-card-title>{{ recipe.name }}</mat-card-title>
+      <mat-slide-toggle
+        [checked]="expertView"
+        (change)="onExpertViewChange($event)"
+        >Expert view</mat-slide-toggle
+      >
     </mat-card-title-group>
-
   </mat-card-header>
   <mat-card-content class="content">
-
-    <div *ngIf="expertView; then expertViewTemplate; else simpleViewTemplate"></div>
+    <div
+      *ngIf="
+        expertView;
+        then expertViewTemplate;
+        else simpleViewTemplate
+      "></div>
     <ng-template #simpleViewTemplate>
-      <p>Water in grounds capacity: <b>{{recipe.ratioConf.waterInGroundCoffeeCapacity}}</b>ml/g</p>
-      <p>Grounds to water ratio: <b>{{recipe.ratioConf.relationship.coffeeG}}</b>g/<b>{{recipe.ratioConf.relationship.waterMl}}</b>ml</p>
+      <p>
+        Water in grounds capacity:
+        <b>{{ recipe.ratioConf.waterInGroundCoffeeCapacity }}</b
+        >ml/g
+      </p>
+      <p>
+        Grounds to water ratio:
+        <b>{{ recipe.ratioConf.relationship.coffeeG }}</b
+        >g/<b>{{ recipe.ratioConf.relationship.waterMl }}</b
+        >ml
+      </p>
 
-      <mat-slider min="1" max="32" step="1"  >
-        <input matSliderThumb [value]="this.recipe.ratioConf.relationship.waterMl" (input)="onStrengthChange($event)">
+      <mat-slider min="1" max="32" step="1">
+        <input matSliderThumb (input)="onStrengthChange($event)" />
       </mat-slider>
-      <p>Strength: {{strength}}</p>
+      <p>Strength: {{ strength }}</p>
     </ng-template>
     <ng-template #expertViewTemplate>
-
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Water in Grounds capacity</mat-label>
-      <input matInput placeholder="250" [(ngModel)]="recipe.ratioConf.waterInGroundCoffeeCapacity"  />
-      <mat-hint>
-        If your grounds are 15g and you weight them after your coffee is done and they are 30g now you devide 30 by 15 and fill the input with the result of 2
-      </mat-hint>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Water input</mat-label>
-      <input [(ngModel)]="recipe.ratioConf.relationship.waterMl" matInput placeholder="233"/>
-      <mat-hint>in ml</mat-hint>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="form-field">
-      <mat-label>Grounds input</mat-label>
-      <input [(ngModel)]="recipe.ratioConf.relationship.coffeeG"  matInput  placeholder="14"/>
-      <mat-hint>in g</mat-hint>
-    </mat-form-field>
+      <form [formGroup]="recipeForm" (change)="onExpertInputChange()">
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Water in Grounds capacity</mat-label>
+          <input
+            matInput
+            placeholder="250"
+            formControlName="waterInGroundsCapacity" />
+          <mat-hint>
+            If your grounds are 15g and you weight them after your coffee is
+            done and they are 30g now you devide 30 by 15 and fill the input
+            with the result of 2
+          </mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Water input</mat-label>
+          <input
+            formControlName="relationshipWater"
+            matInput
+            placeholder="233" />
+          <mat-hint>in ml</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-field">
+          <mat-label>Grounds input</mat-label>
+          <input
+            formControlName="relationshipGrounds"
+            matInput
+            placeholder="14" />
+          <mat-hint>in g</mat-hint>
+        </mat-form-field>
+      </form>
     </ng-template>
-
   </mat-card-content>
   <mat-card-actions class="actions">
-    <button mat-raised-button color="primary" [routerLink]="['/recipe', recipe.id, 'edit']">Save</button>
-    <button mat-raised-button color="warn" routerLink="..">Cancel</button>
+    <button (click)="saveRecipe()" mat-raised-button color="primary">
+      Save
+    </button>
+    <button type="button" mat-raised-button color="warn" routerLink="..">
+      Cancel
+    </button>
   </mat-card-actions>
 </mat-card>

@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
 import { FavoriteDirective } from './shared/directives/Favorite/favorite.directive';
 import { MatCardModule } from '@angular/material/card';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RecipeComponent } from './recipe/recipe.component';
@@ -44,6 +44,7 @@ describe('AppComponent', () => {
         FormsModule,
         MatFormFieldModule,
         MatInputModule,
+        ReactiveFormsModule,
       ],
       providers: [RecipeService],
     })

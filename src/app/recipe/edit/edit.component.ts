@@ -5,6 +5,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { simplifyRatio } from '../../shared/Helpers/recipe.helper';
 import { Subscription } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit',
@@ -18,11 +19,18 @@ export class EditComponent implements OnInit, OnDestroy {
 
   recipeServiceSubscription: Subscription | undefined;
 
+  recipeForm = new FormGroup({
+    waterInGroundsCapacity: new FormControl(0, { nonNullable: true }),
+    relationshipWater: new FormControl(0, { nonNullable: true }),
+    relationshipGrounds: new FormControl(0, { nonNullable: true }),
+  });
+
   constructor(
     private recipeService: RecipeService,
     private route: ActivatedRoute
   ) {
     this.recipe = this.recipeService.getRecipes()[0];
+    this.adjustFormToRecipe();
   }
 
   ngOnInit() {
@@ -30,6 +38,7 @@ export class EditComponent implements OnInit, OnDestroy {
       this.recipeService.recipeToggledFavorite.subscribe(recipe => {
         if (recipe.id === this.recipe.id) {
           this.recipe = recipe;
+          this.adjustFormToRecipe();
         }
       });
     this.updateCurrentRecipeById(this.route.snapshot.params['id']);
@@ -45,6 +54,27 @@ export class EditComponent implements OnInit, OnDestroy {
     this.recipeServiceSubscription?.unsubscribe();
   }
 
+  adjustFormToRecipe() {
+    this.recipeForm.controls.waterInGroundsCapacity.setValue(
+      this.recipe.ratioConf.waterInGroundCoffeeCapacity
+    );
+    this.recipeForm.controls.relationshipGrounds.setValue(
+      this.recipe.ratioConf.relationship.coffeeG
+    );
+    this.recipeForm.controls.relationshipWater.setValue(
+      this.recipe.ratioConf.relationship.waterMl
+    );
+  }
+
+  onExpertInputChange() {
+    this.recipe.ratioConf.relationship.waterMl =
+      this.recipeForm.controls.relationshipWater.value;
+    this.recipe.ratioConf.relationship.coffeeG =
+      this.recipeForm.controls.relationshipGrounds.value;
+    this.recipe.ratioConf.waterInGroundCoffeeCapacity =
+      this.recipeForm.controls.waterInGroundsCapacity.value;
+  }
+
   adjustRecipeToCurrentView() {
     if (!this.expertView) {
       this.recipe.ratioConf = simplifyRatio(this.recipe.ratioConf);
@@ -57,6 +87,7 @@ export class EditComponent implements OnInit, OnDestroy {
       .find(recipe => recipe.id === recipeId);
     if (recipe) {
       this.recipe = recipe;
+      this.adjustFormToRecipe();
     }
   };
 
@@ -87,6 +118,10 @@ export class EditComponent implements OnInit, OnDestroy {
       default:
         this.strength = 'very weak';
     }
+  }
+
+  saveRecipe() {
+    this.recipeService.updateRecipe(this.recipe);
   }
 
   protected readonly Event = Event;
