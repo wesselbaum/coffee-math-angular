@@ -50,7 +50,7 @@ export class RecipeService {
     },
   ];
 
-  recipeToggledFavorite = new Subject<Recipe>();
+  recipeServiceSubject = new Subject<Recipe[]>();
 
   public getRecipes(): Recipe[] {
     return [...this.recipes];
@@ -63,9 +63,7 @@ export class RecipeService {
       }
       return { ...recipe, favorite: !recipe.favorite };
     });
-    this.recipeToggledFavorite.next(
-      this.recipes.find(recipe => recipe.id === recipeId) ?? this.recipes[0]
-    );
+    this.recipeServiceSubject.next(this.recipes);
   }
 
   public updateRecipe(recipe: Recipe) {

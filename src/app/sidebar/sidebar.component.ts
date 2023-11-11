@@ -25,8 +25,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.recipes = this.recipeService.getRecipes();
     this.recipeServiceSubscription =
-      this.recipeService.recipeToggledFavorite.subscribe(() => {
-        this.recipes = this.recipeService.getRecipes();
+      this.recipeService.recipeServiceSubject.subscribe(recipes => {
+        this.recipes = recipes;
       });
   }
 

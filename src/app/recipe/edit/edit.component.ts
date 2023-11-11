@@ -35,9 +35,10 @@ export class EditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.recipeServiceSubscription =
-      this.recipeService.recipeToggledFavorite.subscribe(recipe => {
-        if (recipe.id === this.recipe.id) {
-          this.recipe = recipe;
+      this.recipeService.recipeServiceSubject.subscribe(recipes => {
+        const currentRecipe = recipes.find(r => r.id === this.recipe.id);
+        if (currentRecipe) {
+          this.recipe = currentRecipe;
           this.adjustFormToRecipe();
         }
       });
